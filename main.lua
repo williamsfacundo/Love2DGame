@@ -47,6 +47,7 @@ recSixDraw = false
 
 recCounter = 1
 addCounter = false
+numberRecsPiledToWin = 6
 
 playing = true
 win = false
@@ -100,6 +101,7 @@ recSixDraw = false
 
 recCounter = 1
 addCounter = false
+
 
 playing = true
 win = false
@@ -429,6 +431,14 @@ function resetGame(key)
 	end
 end
 
+function winCondition()
+
+	if recCounter == numberRecsPiledToWin + 1 then
+			playing = false
+			win = true
+	end
+end
+
 function love.update(dt)
 
 	if playing == true then
@@ -483,10 +493,7 @@ function love.update(dt)
 
 		nextRec()
 
-		if recCounter == 7 then
-			playing = false
-			win = true
-		end
+		winCondition()
 
 	else	
 		resetGame("space")
