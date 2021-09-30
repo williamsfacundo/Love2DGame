@@ -59,9 +59,16 @@ recEightHeight = 40
 recEightMove = false
 recEightDraw = false
 
+recNinePosX = 1
+recNinePosY = 210
+recNineWidth = 20
+recNineHeight = 40
+recNineMove = false
+recNineDraw = false
+
 recCounter = 1
 addCounter = false
-numberMaxRecsPiled = 8
+numberMaxRecsPiled = 9
 
 playing = true
 win = false
@@ -127,9 +134,15 @@ recEightHeight = 40
 recEightMove = false
 recEightDraw = false
 
+recNinePosX = 1
+recNinePosY = 210
+recNineWidth = 20
+recNineHeight = 40
+recNineMove = false
+recNineDraw = false
+
 recCounter = 1
 addCounter = false
-
 
 playing = true
 win = false
@@ -277,6 +290,26 @@ function cutRecBordersRecEight()
 	end
 end
 
+function cutRecBordersRecNine() 
+	if recNinePosX + recNineWidth > recEightPosX + recEightWidth and recNinePosX < recEightPosX + recEightWidth then
+		recNineWidth = (recEightPosX + recEightWidth) - recNinePosX
+	else
+		if recNinePosX + recNineWidth > recEightPosX + recEightWidth and recNinePosX > recEightPosX + recEightWidth then
+			playing = false
+		end
+	end
+
+	if recNinePosX < recEightPosX and recNinePosX + recNineWidth > recEightPosX then
+		aux = recEightPosX - recNinePosX
+		recNineWidth = recNineWidth - aux
+		recNinePosX = recEightPosX
+	else 
+		if recNinePosX < recEightPosX and recNinePosX + recNineWidth < recEightPosX then
+			playing = false
+		end
+	end
+end
+
 -- Move Players Fuctions
 
 function moveRec(recPosX, recWidth, dt)
@@ -355,6 +388,15 @@ function moveRecEight(dt)
 	end	
 
 	recEightPosX = recEightPosX + velocity * dt
+end
+
+function moveRecNine(dt)
+
+	if recNinePosX + recNineWidth > screenWidth or recNinePosX < 1 then
+		velocity = velocity * -1
+	end	
+
+	recNinePosX = recNinePosX + velocity * dt
 end
 
 -- Stop Players Movement When Key Pressed
@@ -536,7 +578,32 @@ function stopMovePlayerEight(key)
 		if key == "space" then
 			recEightMove = false	
 
-			cutRecBordersRecEight()					
+			cutRecBordersRecEight()		
+
+			if playing == true then
+				recNineMove = true
+				recNineDraw = true		
+			end				
+
+			if velocity < 0 then
+				velocity = velocity * -1			
+			end	
+
+			velocity = velocity + sumeVelocity
+				
+			addCounter = true
+		end	
+	end
+end
+
+function stopMovePlayerNine(key)
+
+	function love.keypressed(key)
+
+		if key == "space" then
+			recNineMove = false	
+
+			cutRecBordersRecNine()					
 
 			if velocity < 0 then
 				velocity = velocity * -1			
@@ -645,6 +712,14 @@ function love.update(dt)
 			end
 		end
 
+		if recCounter == 9 then
+			if recNineMove == true then
+
+				moveRecNine(dt)
+				stopMovePlayerNine("space")					
+			end
+		end
+
 		nextRec()
 
 		winCondition()
@@ -709,6 +784,8 @@ function love.draw()
 	drawRec(recSevenDraw, recSevenPosX, recSevenPosY, recSevenWidth, recSevenHeight)
 
 	drawRec(recEightDraw, recEightPosX, recEightPosY, recEightWidth, recEightHeight)
+
+	drawRec(recNineDraw, recNinePosX, recNinePosY, recNineWidth, recNineHeight)
 
 	drawUI(velocity)
 end
