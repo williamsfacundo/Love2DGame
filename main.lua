@@ -1,67 +1,76 @@
+recOnePosX = 1
+recOneWidth = 400
+
+recTwoPosX = 1
+recTwoWidth = 350
+
+recThreePosX = 1
+recThreeWidth = 300
+
+recFourPosX = 1
+recFourWidth = 250
+
+recFivePosX = 1
+recFiveWidth = 200
+
+recSixPosX = 1
+recSixWidth = 150
+
+recSevenPosX = 1
+recSevenWidth = 100
+
+recEightPosX = 1
+recEightWidth = 50
+
+recNinePosX = 1
+recNineWidth = 20
+
 function love.load()
 velocity = 200
 sumeVelocity = 300
 screenWidth = 800
 
-recOnePosX = 1
 recOnePosY = 530
-recOneWidth = 400
 recOneHeight = 40
 recOneMove = true
 recOneDraw = true
 
-recTwoPosX = 1
 recTwoPosY = 490
-recTwoWidth = 350
 recTwoHeight = 40
 recTwoMove = false
 recTwoDraw = false
 
-recThreePosX = 1
 recThreePosY = 450
-recThreeWidth = 300
 recThreeHeight = 40
 recThreeMove = false
 recThreeDraw = false
 
-recFourPosX = 1
 recFourPosY = 410
-recFourWidth = 250
 recFourHeight = 40
 recFourMove = false
 recFourDraw = false
 
-recFivePosX = 1
 recFivePosY = 370
-recFiveWidth = 200
 recFiveHeight = 40
 recFiveMove = false
 recFiveDraw = false
 
-recSixPosX = 1
 recSixPosY = 330
-recSixWidth = 150
 recSixHeight = 40
 recSixMove = false
 recSixDraw = false
 
-recSevenPosX = 1
 recSevenPosY = 290
-recSevenWidth = 100
 recSevenHeight = 40
 recSevenMove = false
 recSevenDraw = false
 
-recEightPosX = 1
 recEightPosY = 250
-recEightWidth = 50
 recEightHeight = 40
 recEightMove = false
 recEightDraw = false
 
-recNinePosX = 1
 recNinePosY = 210
-recNineWidth = 20
 recNineHeight = 40
 recNineMove = false
 recNineDraw = false
@@ -310,93 +319,18 @@ function cutRecBordersRecNine()
 	end
 end
 
--- Move Players Fuctions
+-- Move Players Fuctions 
 
 function moveRec(recPosX, recWidth, dt)
 
 	if recPosX + recWidth > screenWidth or recPosX < 1 then
+		
 		velocity = velocity * -1
 	end	
 
 	recPosX = recPosX + velocity * dt
 
 	return recPosX
-end 
-
-function moveRecOne(dt)
-	if recOnePosX + recOneWidth > screenWidth or recOnePosX < 1 then
-		velocity = velocity * -1
-	end	
-
-	recOnePosX = recOnePosX + velocity * dt
-end
-
-function moveRecTwo(dt)
-	if recTwoPosX + recTwoWidth > screenWidth or recTwoPosX < 1 then
-		velocity = velocity * -1
-	end	
-
-	recTwoPosX = recTwoPosX + velocity * dt
-end
-
-function moveRecThree(dt)
-	if recThreePosX + recThreeWidth > screenWidth or recThreePosX < 1 then
-		velocity = velocity * -1
-	end	
-
-	recThreePosX = recThreePosX + velocity * dt
-end
-
-function moveRecFour(dt)
-	if recFourPosX + recFourWidth > screenWidth or recFourPosX < 1 then
-		velocity = velocity * -1
-	end	
-
-	recFourPosX = recFourPosX + velocity * dt
-end
-
-function moveRecFive(dt)
-	if recFivePosX + recFiveWidth > screenWidth or recFivePosX < 1 then
-		velocity = velocity * -1
-	end	
-
-	recFivePosX = recFivePosX + velocity * dt
-end
-
-function moveRecSix(dt)
-
-	if recSixPosX + recSixWidth > screenWidth or recSixPosX < 1 then
-		velocity = velocity * -1
-	end	
-
-	recSixPosX = recSixPosX + velocity * dt
-end
-
-function moveRecSeven(dt)
-
-	if recSevenPosX + recSevenWidth > screenWidth or recSevenPosX < 1 then
-		velocity = velocity * -1
-	end	
-
-	recSevenPosX = recSevenPosX + velocity * dt
-end
-
-function moveRecEight(dt)
-
-	if recEightPosX + recEightWidth > screenWidth or recEightPosX < 1 then
-		velocity = velocity * -1
-	end	
-
-	recEightPosX = recEightPosX + velocity * dt
-end
-
-function moveRecNine(dt)
-
-	if recNinePosX + recNineWidth > screenWidth or recNinePosX < 1 then
-		velocity = velocity * -1
-	end	
-
-	recNinePosX = recNinePosX + velocity * dt
 end
 
 -- Stop Players Movement When Key Pressed
@@ -650,7 +584,7 @@ function love.update(dt)
 		if recCounter == 1 then
 			if recOneMove == true then
 
-				moveRecOne(dt)
+				recOnePosX = moveRec(recOnePosX, recOneWidth, dt)				
 				stopMovePlayerOne("space")				
 			end	
 		end
@@ -658,7 +592,7 @@ function love.update(dt)
 		if recCounter == 2 then
 			if recTwoMove == true then
 
-				moveRecTwo(dt)
+				recTwoPosX = moveRec(recTwoPosX, recTwoWidth, dt)
 				stopMovePlayerTwo("space")					
 			end
 		end
@@ -667,7 +601,7 @@ function love.update(dt)
 		if recCounter == 3 then
 			if recThreeMove == true then
 
-				moveRecThree(dt)
+				recThreePosX = moveRec(recThreePosX, recThreeWidth, dt)
 				stopMovePlayerThree("space")					
 			end
 		end
@@ -675,7 +609,7 @@ function love.update(dt)
 		if recCounter == 4 then
 			if recFourMove == true then
 
-				moveRecFour(dt)
+				recFourPosX = moveRec(recFourPosX, recFourWidth, dt)
 				stopMovePlayerFour("space")					
 			end
 		end
@@ -683,7 +617,7 @@ function love.update(dt)
 		if recCounter == 5 then
 			if recFiveMove == true then
 				
-				moveRecFive(dt)
+				recFivePosX = moveRec(recFivePosX, recFiveWidth, dt)
 				stopMovePlayerFive("space")					
 			end
 		end		
@@ -691,7 +625,7 @@ function love.update(dt)
 		if recCounter == 6 then
 			if recSixMove == true then
 
-				moveRecSix(dt)	
+				recSixPosX = moveRec(recSixPosX, recSixWidth, dt)
 				stopMovePlayerSix("space")				
 			end
 		end
@@ -699,7 +633,7 @@ function love.update(dt)
 		if recCounter == 7 then
 			if recSevenMove == true then
 
-				moveRecSeven(dt)
+				recSevenPosX = moveRec(recSevenPosX, recSevenWidth, dt)
 				stopMovePlayerSeven("space")					
 			end
 		end
@@ -707,7 +641,7 @@ function love.update(dt)
 		if recCounter == 8 then
 			if recEightMove == true then
 
-				moveRecEight(dt)
+				recEightPosX = moveRec(recEightPosX, recEightWidth, dt)
 				stopMovePlayerEight("space")					
 			end
 		end
@@ -715,7 +649,7 @@ function love.update(dt)
 		if recCounter == 9 then
 			if recNineMove == true then
 
-				moveRecNine(dt)
+				recNinePosX = moveRec(recNinePosX, recNineWidth, dt)
 				stopMovePlayerNine("space")					
 			end
 		end
@@ -758,12 +692,12 @@ function drawUI(velocity)
 	if playing == false then
 
 		if win then
-			love.graphics.print("GANASTE", 350, 20)
+			love.graphics.print("YOU WIN", 350, 20)
 		else
-			love.graphics.print("PERDISTE", 350, 20)
+			love.graphics.print("YOU LOST", 350, 20)
 		end	
 
-		love.graphics.print("OPRIME ESPACIO PARA VOLVER A JUGAR", 250, 50)
+		love.graphics.print("PRESS SPCAE TO PLAY AGAIN", 250, 50)
 	end
 end
 
