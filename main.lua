@@ -45,9 +45,16 @@ recSixHeight = 40
 recSixMove = false
 recSixDraw = false
 
+recSevenPosX = 1
+recSevenPosY = 290
+recSevenWidth = 100
+recSevenHeight = 40
+recSevenMove = false
+recSevenDraw = false
+
 recCounter = 1
 addCounter = false
-numberRecsPiledToWin = 6
+numberMaxRecsPiled = 7
 
 playing = true
 win = false
@@ -98,6 +105,13 @@ recSixWidth = 50
 recSixHeight = 40
 recSixMove = false
 recSixDraw = false
+
+recSevenPosX = 1
+recSevenPosY = 290
+recSevenWidth = 100
+recSevenHeight = 40
+recSevenMove = false
+recSevenDraw = false
 
 recCounter = 1
 addCounter = false
@@ -209,6 +223,26 @@ function cutRecBordersRecSix()
 	end
 end
 
+function cutRecBordersRecSeven()
+	if recSevenPosX + recSevenWidth > recSixPosX + recSixWidth and recSevenPosX < recSixPosX + recSixWidth then
+		recSevenWidth = (recSixPosX + recSixWidth) - recSevenPosX
+	else
+		if recSevenPosX + recSevenWidth > recSixPosX + recSixWidth and recSevenPosX > recSixPosX + recSixWidth then
+			playing = false
+		end
+	end
+
+	if recSevenPosX < recSixPosX and recSevenPosX + recSevenWidth > recSixPosX then
+		aux = recSixPosX - recSevenPosX
+		recSevenWidth = recSevenWidth - aux
+		recSevenPosX = recSixPosX
+	else 
+		if recSevenPosX < recSixPosX and recSevenPosX + recSevenWidth < recSixPosX then
+			playing = false
+		end
+	end
+end
+
 -- Move Players Fuctions
 
 function moveRec(recPosX, recWidth, dt)
@@ -269,6 +303,15 @@ function moveRecSix(dt)
 	end	
 
 	recSixPosX = recSixPosX + velocity * dt
+end
+
+function moveRecSeven(dt)
+
+	if recSevenPosX + recSevenWidth > screenWidth or recSevenPosX < 1 then
+		velocity = velocity * -1
+	end	
+
+	recSevenPosX = recSevenPosX + velocity * dt
 end
 
 -- Stop Players Movement When Key Pressed
@@ -398,15 +441,41 @@ function stopMovePlayerSix(key)
 	function love.keypressed(key)
 
 		if key == "space" then
-			recSixMove = false						
+			recSixMove = false			
+
+			cutRecBordersRecSix()	
+
+			if playing == true then
+				recSevenMove = true
+				recSevenDraw = true		
+			end		
 
 			if velocity < 0 then
 				velocity = velocity * -1			
 			end	
 
 			velocity = velocity + sumeVelocity
+				
+			addCounter = true
+		end	
+	end
+end
 
-			cutRecBordersRecSix()	
+function stopMovePlayerSeven(key)
+
+	function love.keypressed(key)
+
+		if key == "space" then
+			recSevenMove = false	
+
+			cutRecBordersRecSeven()					
+
+			if velocity < 0 then
+				velocity = velocity * -1			
+			end	
+
+			velocity = velocity + sumeVelocity
+				
 			addCounter = true
 		end	
 	end
@@ -433,7 +502,7 @@ end
 
 function winCondition()
 
-	if recCounter == numberRecsPiledToWin + 1 then
+	if recCounter == numberMaxRecsPiled + 1 then
 			playing = false
 			win = true
 	end
@@ -442,19 +511,20 @@ end
 function love.update(dt)
 
 	if playing == true then
+
 		if recCounter == 1 then
 			if recOneMove == true then
 
-				stopMovePlayerOne("space")
 				moveRecOne(dt)
+				stopMovePlayerOne("space")				
 			end	
 		end
 		
 		if recCounter == 2 then
 			if recTwoMove == true then
 
-				stopMovePlayerTwo("space")
-				moveRecTwo(dt)	
+				moveRecTwo(dt)
+				stopMovePlayerTwo("space")					
 			end
 		end
 
@@ -462,32 +532,40 @@ function love.update(dt)
 		if recCounter == 3 then
 			if recThreeMove == true then
 
-				stopMovePlayerThree("space")
-				moveRecThree(dt)	
+				moveRecThree(dt)
+				stopMovePlayerThree("space")					
 			end
 		end
 	
 		if recCounter == 4 then
 			if recFourMove == true then
 
-				stopMovePlayerFour("space")
-				moveRecFour(dt)	
+				moveRecFour(dt)
+				stopMovePlayerFour("space")					
 			end
 		end
 
 		if recCounter == 5 then
 			if recFiveMove == true then
-
-				stopMovePlayerFive("space")
-				moveRecFive(dt)	
+				
+				moveRecFive(dt)
+				stopMovePlayerFive("space")					
 			end
 		end		
 
 		if recCounter == 6 then
 			if recSixMove == true then
 
-				stopMovePlayerSix("space")
 				moveRecSix(dt)	
+				stopMovePlayerSix("space")				
+			end
+		end
+
+		if recCounter == 7 then
+			if recSevenMove == true then
+
+				moveRecSeven(dt)
+				stopMovePlayerSeven("space")					
 			end
 		end
 
@@ -513,6 +591,7 @@ function drawUI(velocity)
 	--Draw Velocity
 
 	love.graphics.print("VELOCITY", 20, 20)
+	love.graphics.print(recCounter, 20, 50)
 
 	if velocity < 0 then
 
@@ -550,6 +629,8 @@ function love.draw()
 	drawRec(recFiveDraw, recFivePosX, recFivePosY, recFiveWidth, recFiveHeight)
 
 	drawRec(recSixDraw, recSixPosX, recSixPosY, recSixWidth, recSixHeight)
+
+	drawRec(recSevenDraw, recSevenPosX, recSevenPosY, recSevenWidth, recSevenHeight)
 
 	drawUI(velocity)
 end
