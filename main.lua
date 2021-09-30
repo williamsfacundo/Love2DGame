@@ -82,6 +82,12 @@ numberMaxRecsPiled = 9
 playing = true
 win = false
 
+allAttemps = 1
+winAttemps = 1
+minAttempsToWin = 0
+lastWinAttemps = 0
+
+attempsUpdated = false
 end
 
 function resetValues()
@@ -89,42 +95,42 @@ velocity = 200
 
 recOnePosX = 1
 recOnePosY = 530
-recOneWidth = 300
+recOneWidth = 400
 recOneHeight = 40
 recOneMove = true
 recOneDraw = true
 
 recTwoPosX = 1
 recTwoPosY = 490
-recTwoWidth = 250
+recTwoWidth = 350
 recTwoHeight = 40
 recTwoMove = false
 recTwoDraw = false
 
 recThreePosX = 1
 recThreePosY = 450
-recThreeWidth = 200
+recThreeWidth = 300
 recThreeHeight = 40
 recThreeMove = false
 recThreeDraw = false
 
 recFourPosX = 1
 recFourPosY = 410
-recFourWidth = 150
+recFourWidth = 250
 recFourHeight = 40
 recFourMove = false
 recFourDraw = false
 
 recFivePosX = 1
 recFivePosY = 370
-recFiveWidth = 100
+recFiveWidth = 200
 recFiveHeight = 40
 recFiveMove = false
 recFiveDraw = false
 
 recSixPosX = 1
 recSixPosY = 330
-recSixWidth = 50
+recSixWidth = 150
 recSixHeight = 40
 recSixMove = false
 recSixDraw = false
@@ -155,6 +161,8 @@ addCounter = false
 
 playing = true
 win = false
+
+attempsUpdated = false
 end
 
 -- Cute Recs borders when stoped 
@@ -569,11 +577,37 @@ function resetGame(key)
 	end
 end
 
+function updateAttemps()
+	
+	if playing == false and attempsUpdated == false then
+
+		allAttemps = allAttemps + 1
+		
+		if win == true then
+
+			if minAttempsToWin == 0 then
+				minAttempsToWin = winAttemps
+			end
+
+			if winAttemps < minAttempsToWin then
+				minAttempsToWin = winAttemps				
+			end		
+
+			lastWinAttemps = winAttemps
+			winAttemps = 0	
+		else
+			winAttemps = winAttemps + 1			
+		end	
+
+		attempsUpdated = true
+	end
+end
+
 function winCondition()
 
 	if recCounter == numberMaxRecsPiled + 1 then
 			playing = false
-			win = true
+			win = true			
 	end
 end
 
@@ -657,8 +691,9 @@ function love.update(dt)
 		nextRec()
 
 		winCondition()
+	else		
+		updateAttemps()
 
-	else	
 		resetGame("space")
 	end
 
@@ -671,12 +706,26 @@ function drawRec(recDraw, recPosX, recPosY, recWidth, recHeight)
 	end
 end
 
+function drawAttemps()
+
+	love.graphics.print("Total Attemps", 20, 35) 
+	love.graphics.print(allAttemps, 120, 35)
+
+	love.graphics.print("Current Win Attemps", 20, 50) 
+	love.graphics.print(winAttemps, 155, 50)
+
+	love.graphics.print("Last Win Attemps", 20, 65) 
+	love.graphics.print(lastWinAttemps, 150, 65)	
+
+	love.graphics.print("Min Attemps Win", 20, 80) 
+	love.graphics.print(minAttempsToWin, 140, 80)
+end
+
 function drawUI(velocity)
 
 	--Draw Velocity
 
 	love.graphics.print("VELOCITY", 20, 20)
-	love.graphics.print(recCounter, 20, 50)
 
 	if velocity < 0 then
 
@@ -687,7 +736,10 @@ function drawUI(velocity)
 	
 	--Draw Instructions
 
-	love.graphics.print("PRESS SPACE TO STOP RECTANGLE", 550, 20)	
+	if playing == true then
+		
+		love.graphics.print("PRESS SPACE TO STOP RECTANGLE", 550, 20)	
+	end
 
 	if playing == false then
 
@@ -697,8 +749,8 @@ function drawUI(velocity)
 			love.graphics.print("YOU LOST", 350, 20)
 		end	
 
-		love.graphics.print("PRESS SPCAE TO PLAY AGAIN", 250, 50)
-	end
+		love.graphics.print("PRESS SPACE TO PLAY AGAIN", 250, 50)
+	end	
 end
 
 function love.draw()
@@ -722,4 +774,6 @@ function love.draw()
 	drawRec(recNineDraw, recNinePosX, recNinePosY, recNineWidth, recNineHeight)
 
 	drawUI(velocity)
+
+	drawAttemps()
 end
