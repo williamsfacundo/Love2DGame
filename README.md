@@ -1,7 +1,7 @@
-### Love 2D GAME
+## Love 2D GAME
 
-## Engine
-# LOVE 2D
+# Engine
+LOVE 2D
 
-## Language
-# LUA
+# Language
+LUA
