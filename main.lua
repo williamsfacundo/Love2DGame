@@ -331,10 +331,19 @@ end
 
 function moveRec(recPosX, recWidth, dt)
 
-	if recPosX + recWidth > screenWidth or recPosX < 1 then
+	if recPosX + recWidth > screenWidth then
 		
-		velocity = velocity * -1
+		if velocity > 0 then
+			velocity = velocity * -1
+		end		
 	end	
+
+	if recPosX < 1 then
+
+		if velocity < 0 then
+			velocity = velocity * -1
+		end		
+	end
 
 	recPosX = recPosX + velocity * dt
 
@@ -738,7 +747,8 @@ function drawUI(velocity)
 
 	if playing == true then
 		
-		love.graphics.print("PRESS SPACE TO STOP RECTANGLE", 550, 20)	
+		love.graphics.print("GAME DEVELOPED BY WILLIAMS FACUNDO", 510, 40)
+		love.graphics.print("PRESS SPACE TO STOP RECTANGLE", 510, 20)	 		
 	end
 
 	if playing == false then
