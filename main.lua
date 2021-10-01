@@ -2,32 +2,34 @@ recOnePosX = 1
 recOneWidth = 400
 
 recTwoPosX = 1
-recTwoWidth = 350
+recTwoWidth = 300
 
 recThreePosX = 1
-recThreeWidth = 300
+recThreeWidth = 225
 
 recFourPosX = 1
-recFourWidth = 250
+recFourWidth = 175
 
 recFivePosX = 1
-recFiveWidth = 200
+recFiveWidth = 120
 
 recSixPosX = 1
-recSixWidth = 150
+recSixWidth = 80
 
 recSevenPosX = 1
-recSevenWidth = 100
+recSevenWidth = 50
 
 recEightPosX = 1
-recEightWidth = 50
+recEightWidth = 25
 
 recNinePosX = 1
-recNineWidth = 20
+recNineWidth = 5
 
 function love.load()
-velocity = 200
-sumeVelocity = 300
+love.window.setTitle("Try to win if you can")
+
+velocity = 300
+sumeVelocity = 350
 screenWidth = 800
 
 recOnePosY = 530
@@ -748,7 +750,9 @@ function drawUI(velocity)
 	if playing == true then
 		
 		love.graphics.print("GAME DEVELOPED BY WILLIAMS FACUNDO", 510, 40)
-		love.graphics.print("PRESS SPACE TO STOP RECTANGLE", 510, 20)	 		
+		love.graphics.print("PRESS SPACE TO STOP RECTANGLE", 510, 20)	
+		love.graphics.print("TRY TO WIN IF YOU CAN", 250, 50)	 	
+
 	end
 
 	if playing == false then
