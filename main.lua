@@ -25,6 +25,14 @@ recEightWidth = 25
 recNinePosX = 1
 recNineWidth = 5
 
+colors = {}
+colors.red = {200,0,0}
+colors.yellow = {255, 160,0}
+colors.green = {0, 1, 0}
+colors.blue = {0, 0, 255}
+colors.white = {1, 1, 1}
+colors.violet = {127, 0, 255}
+
 function love.load()
 love.window.setTitle("Try to win if you can")
 
@@ -605,7 +613,7 @@ function updateAttemps()
 			end		
 
 			lastWinAttemps = winAttemps
-			winAttemps = 0	
+			winAttemps = 1	
 		else
 			winAttemps = winAttemps + 1			
 		end	
@@ -710,14 +718,17 @@ function love.update(dt)
 
 end
 
-function drawRec(recDraw, recPosX, recPosY, recWidth, recHeight)
+function drawRec(recDraw, recPosX, recPosY, recWidth, recHeight, color)
 	
-	if recDraw then
+	if recDraw then			
+		love.graphics.setColor( color )
 		love.graphics.rectangle("fill", recPosX, recPosY, recWidth, recHeight)
 	end
 end
 
 function drawAttemps()
+
+	love.graphics.setColor( colors.blue )
 
 	love.graphics.print("Total Attemps", 20, 35) 
 	love.graphics.print(allAttemps, 120, 35)
@@ -736,6 +747,7 @@ function drawUI(velocity)
 
 	--Draw Velocity
 
+	love.graphics.setColor( colors.white )
 	love.graphics.print("VELOCITY", 20, 20)
 
 	if velocity < 0 then
@@ -749,43 +761,49 @@ function drawUI(velocity)
 
 	if playing == true then
 		
+		love.graphics.setColor( colors.violet )
 		love.graphics.print("GAME DEVELOPED BY WILLIAMS FACUNDO", 510, 40)
 		love.graphics.print("PRESS SPACE TO STOP RECTANGLE", 510, 20)	
+		love.graphics.setColor( colors.white )
 		love.graphics.print("TRY TO WIN IF YOU CAN", 250, 50)	 	
 
 	end
 
 	if playing == false then
 
+		
 		if win then
+			love.graphics.setColor( colors.green )
 			love.graphics.print("YOU WIN", 350, 20)
 		else
+			love.graphics.setColor( colors.red )
 			love.graphics.print("YOU LOST", 350, 20)
 		end	
 
+		love.graphics.setColor( colors.white )
 		love.graphics.print("PRESS SPACE TO PLAY AGAIN", 250, 50)
 	end	
 end
 
 function love.draw()
 	
-	drawRec(recOneDraw, recOnePosX, recOnePosY, recOneWidth, recOneHeight)
+	drawRec(recOneDraw, recOnePosX, recOnePosY, recOneWidth, recOneHeight, colors.red)
 	
-	drawRec(recTwoDraw, recTwoPosX, recTwoPosY, recTwoWidth, recTwoHeight)
+	drawRec(recTwoDraw, recTwoPosX, recTwoPosY, recTwoWidth, recTwoHeight, colors.yellow)
 
-	drawRec(recThreeDraw, recThreePosX, recThreePosY, recThreeWidth, recThreeHeight)
+	drawRec(recThreeDraw, recThreePosX, recThreePosY, recThreeWidth, recThreeHeight, colors.green)
 
-	drawRec(recFourDraw, recFourPosX, recFourPosY, recFourWidth, recFourHeight)
+	drawRec(recFourDraw, recFourPosX, recFourPosY, recFourWidth, recFourHeight, colors.red)
 
-	drawRec(recFiveDraw, recFivePosX, recFivePosY, recFiveWidth, recFiveHeight)
+	drawRec(recFiveDraw, recFivePosX, recFivePosY, recFiveWidth, recFiveHeight, colors.yellow)
 
-	drawRec(recSixDraw, recSixPosX, recSixPosY, recSixWidth, recSixHeight)
+	drawRec(recSixDraw, recSixPosX, recSixPosY, recSixWidth, recSixHeight, colors.green)
 
-	drawRec(recSevenDraw, recSevenPosX, recSevenPosY, recSevenWidth, recSevenHeight)
+	drawRec(recSevenDraw, recSevenPosX, recSevenPosY, recSevenWidth, recSevenHeight, colors.red)
 
-	drawRec(recEightDraw, recEightPosX, recEightPosY, recEightWidth, recEightHeight)
+	drawRec(recEightDraw, recEightPosX, recEightPosY, recEightWidth, recEightHeight, colors.yellow)
 
-	drawRec(recNineDraw, recNinePosX, recNinePosY, recNineWidth, recNineHeight)
+	drawRec(recNineDraw, recNinePosX, recNinePosY, recNineWidth, recNineHeight, colors.green)
 
 	drawUI(velocity)
 
